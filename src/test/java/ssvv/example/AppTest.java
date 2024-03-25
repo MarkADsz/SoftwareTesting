@@ -1,13 +1,34 @@
 package ssvv.example;
 
 import domain.Student;
+import domain.Tema;
 import junit.framework.TestCase;
 import validation.StudentValidator;
+import validation.TemaValidator;
 
 public class AppTest 
     extends TestCase
 {
     private StudentValidator validationService = new StudentValidator();
+    private TemaValidator temaValidator = new TemaValidator();
+
+    public void testValidateTemaWithInvalidID() {
+        Tema tema = new Tema(null, "asd", 2,1);
+        try {
+            temaValidator.validate(tema);
+        } catch (Exception e) {
+            assertEquals(e.getMessage(), "ID invalid! \n");
+        }
+    }
+
+    public void testValidateTemaWithInvalidEndDate() {
+        Tema tema = new Tema("asd", "asd", -1,1);
+        try {
+            temaValidator.validate(tema);
+        } catch (Exception e) {
+            assertEquals(e.getMessage(), "Deadline invalid! \n");
+        }
+    }
 
     public void testValidateValidStudent() {
         Student validStudent = new Student("S001", "John Doe", 123);
